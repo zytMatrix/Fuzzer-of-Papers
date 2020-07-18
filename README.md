@@ -1,6 +1,10 @@
 # Fuzzer-of-Papers
 the link of paper and source code, and an abstract of paper
 
+1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](# Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization)
+2. [MemLock: Memory Usage Guided Fuzzing](# MemLock: Memory Usage Guided Fuzzing)
+3. [Sequence Coverage Directed Greybox Fuzzing](# Sequence Coverage Directed Greybox Fuzzing )
+
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
 ### 摘要
@@ -24,7 +28,7 @@ the link of paper and source code, and an abstract of paper
 >1. paper：https://www.ndss-symposium.org/wp-content/uploads/2020/02/24422-paper.pdf
 >2. slides：https://www.ndss-symposium.org/wp-content/uploads/24422-slides.pdf
 >3. code：https://github.com/TortoiseFuzz/TortoiseFuzz
->4. video：
+>4. video：https://www.youtube.com/watch?v=Fud0v0ppCOo&list=PLfUWWM-POgQtbJfU8PJRue_ZzASLfHF5Y&index=5&t=0s
 
 ## MemLock: Memory Usage Guided Fuzzing
 
@@ -46,7 +50,7 @@ the link of paper and source code, and an abstract of paper
 
 我们在14个广泛使用的真实程序中对MemLock进行了全面的评估。 我们的实验结果表明，在发现内存消耗错误方面，MemLock大大优于包括AFL，AFLfast，PerfFuzz，FairFuzz，Angora和QSYM在内的最新的模糊测试技术。在实验过程中，我们发现了许多以前未知的内存消耗错误，并收到了15个新的CVE。
 
-> 1. Paper：https://wcventure.github.io/pdf/ICSE2020_MemLock.pdf
+> 1. paper：https://wcventure.github.io/pdf/ICSE2020_MemLock.pdf
 > 2. code：https://github.com/wcventure/MemLock-Fuzz
 > 3. video：https://www.youtube.com/watch?v=yjqzaGnT5zk&feature=youtu.be
 
