@@ -3,18 +3,9 @@ the link of paper and source code, and an abstract of paper
 
 ## Contents
 
-1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization)
-2. [MemLock: Memory Usage Guided Fuzzing](#MemLock: Memory Usage Guided Fuzzing)
+1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#not-all-coverage-measurements-are-equal-fuzzing-by-coverage-accounting-for-input-prioritization)
+2. [MemLock: Memory Usage Guided Fuzzing](#memLock-memory-usage-guided-fuzzing)
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
-4. [Book](#Book)
-
-[Book](#book)
-
-
-
-### Book
-
-asdasdasdasdsa
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
