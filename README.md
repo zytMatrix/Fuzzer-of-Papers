@@ -1,9 +1,12 @@
 # Fuzzer-of-Papers
 the link of paper and source code, and an abstract of paper
 
+## Contents
+
 1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization)
 2. [MemLock: Memory Usage Guided Fuzzing](#MemLock: Memory Usage Guided Fuzzing)
-3. [Sequence Coverage Directed Greybox Fuzzing](#Sequence Coverage Directed Greybox Fuzzing )
+3. [Sequence Coverage Directed Greybox Fuzzing](#Sequence Coverage Directed Greybox Fuzzing)
+4. [Book](#book)
 
 [Book](#book)
 
