@@ -6,8 +6,8 @@ the link of paper and source code, and an abstract of paper
 1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#not-all-coverage-measurements-are-equal-fuzzing-by-coverage-accounting-for-input-prioritization)
 2. [MemLock: Memory Usage Guided Fuzzing](#memLock-memory-usage-guided-fuzzing)
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
-4. [Angora: Efficient Fuzzing by Principled Search](angora-efficient-fuzzing-by-principled-search)
-5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](fuzzingParmeSan-sanitizer-guided-greybox-fuzzing[)
+4. [Angora: Efficient Fuzzing by Principled Search](#angora-efficient-fuzzing-by-principled-search)
+5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingParmeSan-sanitizer-guided-greybox-fuzzing[)
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
