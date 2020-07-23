@@ -6,8 +6,13 @@ the link of paper and source code, and an abstract of paper
 1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#not-all-coverage-measurements-are-equal-fuzzing-by-coverage-accounting-for-input-prioritization)
 2. [MemLock: Memory Usage Guided Fuzzing](#memLock-memory-usage-guided-fuzzing)
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
+4. [Angora: Efficient Fuzzing by Principled Search](Angora-Efficient-Fuzzing-by-Principled-Search)
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
+
+作者：Wang, Yanhao and Jia, Xiangkun and Liu, Yuwei and Zeng, Kyle and Bao, Tiffany and Wu, Dinghao and Su, Purui
+
+会议：NDSS 2020
 
 ### 摘要
 
@@ -34,7 +39,11 @@ the link of paper and source code, and an abstract of paper
 
 ## MemLock: Memory Usage Guided Fuzzing
 
-## 摘要
+作者：Wen, Cheng and Wang, Haijun and Li, Yuekang and Qin, Shengchao and Liu, Yang and Xu, Zhiwu and Chen, Hongxu and Xie, Xiaofei and Pu, Geguang and Liu, Ting
+
+会议：42nd International Conference on Software Engineering，ICSE 2020 CCF A会
+
+### 摘要
 
 - **解决的问题**：
 
@@ -58,7 +67,11 @@ the link of paper and source code, and an abstract of paper
 
 ## Sequence Coverage Directed Greybox Fuzzing 
 
-## 摘要
+作者：Liang, Hongliang and Zhang, Yini and Yu, Yue and Xie, Zhuosi and Jiang, Lin
+
+会议：2019 IEEE/ACM 27th International Conference on Program Comprehension (ICPC)
+
+### 摘要
 
 - **解决的问题**：导向性模糊测试的优化
 
@@ -79,5 +92,66 @@ the link of paper and source code, and an abstract of paper
 
 - **实验效果**：在对真实软件的实验表明，SCDF在效率和效果方面优于AFLGo、BugRedux
 
-> 1. https://wcventure.github.io/FuzzingPaper/Paper/ICPC19_Sequence.pdf
+> 1. paper：https://wcventure.github.io/FuzzingPaper/Paper/ICPC19_Sequence.pdf
+
+## Angora: Efficient Fuzzing by Principled Search
+
+作者：Chen, Peng and Chen, Hao
+
+会议：2018 IEEE Symposium on Security and Privacy (SP)
+
+### 摘要
+
+- **解决的问题**：
+
+  提高模糊测试的效率，更好地生成输入来触发更多的程序状态
+
+- **已有解决方案**：
+
+  结合符号执行的模糊测试能够产生高质量的输入，但是它们的运行速度很慢，开销很大；基于随机变异来产生输入的模糊测试方法运行速度很快，但无法产生高质量的输入。
+
+- **本文提出的创新方案概述**：
+
+  本文提出了Angora, 一个新的基于变异的模糊测试工具。Angora 的主要目标是在不使用符号执行的前提下求解路径约束来提高代码覆盖率。为了更高效地解决路径约束， 提出了四个关键技术：
+
+  1. 可适应的字节级别的污点跟踪：分析 input 中与条件判断相关的字节，仅对其进行变异，而不是变异整个 input
+  2. 上下文敏感的分支计数：识别在不同上下文中相同的分支，将此作为衡量种子是否有趣的标准
+  3. 基于梯度下降搜索的约束求解方法：将条件判断语句处的约束转换成函数，利用梯度下降的方法求解函数，实现类似符号执行的功能
+  4. 输入长度的智能探索：使得读取数据的长度尽可能满足程序的需要，也即不盲目的增加输入的长度，当需要增加输入长度来触发新路径时才增加输入的长度
+
+- **实验效果**：
+
+  Angora在LAVA数据集和真实程序中比其他模糊测试工具能够找到更多的漏洞和覆盖更多的代码块。
+
+> 1. paper：https://www.cs.ucdavis.edu/~hchen/paper/chen2018angora.pdf
+> 2. code：https://github.com/AngoraFuzzer/Angora
+> 3. video：https://www.youtube.com/watch?v=S4VChMYzpgc
+
+## FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing
+
+作者：sterlund, Sebastian and Razavi, Kaveh and Bos, Herbert and Giuffrida, Cristiano
+
+会议：29th USENIX Security  2020
+
+### 摘要
+
+- **解决的问题**：
+
+改进导向性模糊测试，提升其漏洞覆盖率
+
+- **已有解决方案**：
+
+基于代码覆盖率的模糊测试认为覆盖率与漏洞覆盖率强相关，为了提升漏洞挖掘效果只是盲目的提升代码覆盖率。由于代码覆盖率对漏洞覆盖率是过拟合的，所以此方法并不理想，可能会花费很多的时间来发现漏洞。为此，导向性模糊测试通过引导 fuzz 至可能包含漏洞的基本块来解决此问题。这样可以极大的减少发现特定漏洞的时间，但是对漏洞覆盖率是欠拟合的
+
+- **本文提出的创新方案概述**：
+
+在本文中，我们提出了sanitizer-guided fuzzing，专门针对漏洞覆盖率进行了优化。主要观察是，现有的软件sanitizer插桩通常被用于检测模糊测试引起的错误情况，看其是否属于某种漏洞。但它们还可以作为一种通用且有效的机制来识别有趣的基本块，从而更好地引导模糊测试
+
+- **实验效果**：
+
+实验证明 ParmeSan 大大降低了实际漏洞挖掘的时间，覆盖相同漏洞的速度比现有的基于覆盖率的模糊测试（Angora）快37％，比导向的模糊测试（AFLGo）快288％。
+
+> 1. paper：https://download.vusec.net/papers/parmesan_sec20.pdf
+> 2. code：https://github.com/vusec/parmesan
+> 3. slides：https://docs.google.com/presentation/d/1b6UjioGkbz54VSO-7nO1B34HCKr4IUv4J8_5U-1328U/edit#slide=id.g82cb7d858d_2_75
 
