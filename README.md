@@ -8,7 +8,7 @@ the link of paper and source code, and an abstract of paper
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
 4. [Angora: Efficient Fuzzing by Principled Search](#angora-efficient-fuzzing-by-principled-search)
 5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingparmesan-sanitizer-guided-greybox-fuzzing)
-6. [Undangle- Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
+6. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
@@ -157,7 +157,7 @@ the link of paper and source code, and an abstract of paper
 > 2. code：https://github.com/vusec/parmesan
 > 3. slides：https://docs.google.com/presentation/d/1b6UjioGkbz54VSO-7nO1B34HCKr4IUv4J8_5U-1328U/edit#slide=id.g82cb7d858d_2_75
 
-# Undangle- Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities
+# Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities
 
 作者：Caballero, Juan and Grieco, Gustavo and Marron, Mark and Nappa, Antonio
 
@@ -184,3 +184,5 @@ the link of paper and source code, and an abstract of paper
 - **实验效果**：
 
   为了评估Undangle，对8个真实漏洞进行漏洞分析。结果表明，Firefox中的两个不同的漏洞具有共同的漏洞成因，并且它们的补丁程序不能完全修复潜在的错误，还在Firefox Web浏览器上识别出新的漏洞。
+
+> 1. paper：https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/Undangle.pdf
