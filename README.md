@@ -8,7 +8,7 @@ the link of paper and source code, and an abstract of paper
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
 4. [Angora: Efficient Fuzzing by Principled Search](#angora-efficient-fuzzing-by-principled-search)
 5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingparmesan-sanitizer-guided-greybox-fuzzing)
-6. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
+6. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](#undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
