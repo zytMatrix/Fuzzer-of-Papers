@@ -8,6 +8,7 @@ the link of paper and source code, and an abstract of paper
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
 4. [Angora: Efficient Fuzzing by Principled Search](#angora-efficient-fuzzing-by-principled-search)
 5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingparmesan-sanitizer-guided-greybox-fuzzing)
+6. [Undangle- Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
@@ -156,3 +157,30 @@ the link of paper and source code, and an abstract of paper
 > 2. code：https://github.com/vusec/parmesan
 > 3. slides：https://docs.google.com/presentation/d/1b6UjioGkbz54VSO-7nO1B34HCKr4IUv4J8_5U-1328U/edit#slide=id.g82cb7d858d_2_75
 
+# Undangle- Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities
+
+作者：Caballero, Juan and Grieco, Gustavo and Marron, Mark and Nappa, Antonio
+
+会议：Proceedings of the 2012 International Symposium on Software Testing and Analysis
+
+## 摘要
+
+- **解决的问题**：
+
+  检测UAF、DF漏洞
+
+- **已有解决方案**：
+
+  当悬空指针指向的内存对象被释放时，导致指针指向了dead memory，随后该内存区域可能被重新分配或重写。UAF、DF漏洞难以识别且花费时间较多，这是由于悬空指针的创建、使用可能时间间隔很大。另外，为了理解漏洞的根本原因可能需要去分析内存中多个对象。如：有些悬空指针是由于忘记将被释放对象的指针置null而导致的。
+
+  之前的工作主要是在悬空指针被使用时才能发现漏洞，提前检测技术在悬空指针出现时、使用前就可以检测到漏洞。
+
+- **本文提出的创新方案概述**：
+
+  本文设计、实现了提前检测技术Undangle。为了在运行时识别出不安全的悬空指针并最少化假阳性，我们将long-lived（长时间存在）悬空指针视为不安全的。为此，提前检测技术跟踪悬空指针的创建时间，当其存在时间超出提前定义好的时间窗口后将其识别为不安全的悬空指针。
+
+  现有的内存调试工具提供了当使用悬空指针时有关程序状态的信息，但提供的有关悬空指针被创建的信息很少。本文提出的早期检测技术可自动确定崩溃是由UAF还是DF漏洞引起的，并在创建和使用悬空指针时收集有关程序状态的信息。
+
+- **实验效果**：
+
+  为了评估Undangle，对8个真实漏洞进行漏洞分析。结果表明，Firefox中的两个不同的漏洞具有共同的漏洞成因，并且它们的补丁程序不能完全修复潜在的错误，还在Firefox Web浏览器上识别出新的漏洞。
