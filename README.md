@@ -4,11 +4,20 @@ the link of paper and source code, and an abstract of paper
 ## Contents
 
 1. [Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization](#not-all-coverage-measurements-are-equal-fuzzing-by-coverage-accounting-for-input-prioritization)
+
 2. [MemLock: Memory Usage Guided Fuzzing](#memLock-memory-usage-guided-fuzzing)
+
 3. [Sequence Coverage Directed Greybox Fuzzing](#sequence-coverage-directed-greybox-fuzzing)
+
 4. [Angora: Efficient Fuzzing by Principled Search](#angora-efficient-fuzzing-by-principled-search)
+
 5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingparmesan-sanitizer-guided-greybox-fuzzing)
+
 6. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](#undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
+
+7. [TIFF: Using Input Type Inference To Improve Fuzzing](#TIFF-Using-Input-Type-Inference-To-Improve-Fuzzing)
+
+   
 
 ## Not All Coverage Measurements Are Equal: Fuzzing by Coverage Accounting for Input Prioritization
 
@@ -157,13 +166,13 @@ the link of paper and source code, and an abstract of paper
 > 2. code：https://github.com/vusec/parmesan
 > 3. slides：https://docs.google.com/presentation/d/1b6UjioGkbz54VSO-7nO1B34HCKr4IUv4J8_5U-1328U/edit#slide=id.g82cb7d858d_2_75
 
-# Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities
+## Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities
 
 作者：Caballero, Juan and Grieco, Gustavo and Marron, Mark and Nappa, Antonio
 
 会议：Proceedings of the 2012 International Symposium on Software Testing and Analysis
 
-## 摘要
+### 摘要
 
 - **解决的问题**：
 
@@ -186,3 +195,40 @@ the link of paper and source code, and an abstract of paper
   为了评估Undangle，对8个真实漏洞进行漏洞分析。结果表明，Firefox中的两个不同的漏洞具有共同的漏洞成因，并且它们的补丁程序不能完全修复潜在的错误，还在Firefox Web浏览器上识别出新的漏洞。
 
 > 1. paper：https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/Undangle.pdf
+
+## TIFF: Using Input Type Inference To Improve Fuzzing
+
+作者：Jain, Vivek and Rawat, Sanjay and Giuffrida, Cristiano and Bos, Herbert
+
+会议：Proceedings of the 34th Annual Computer Security Applications Conference（ACSAC-2018）
+
+### 摘要
+
+- **解决的问题**：
+
+  fuzzing中对输入进行变异的步骤对提升代码覆盖率和触发bug来说至关重要。本文通过修改变异策略来最大化代码覆盖率从而发现更多的bug。
+
+- **已有解决方案**：
+
+  现有的方法大部分是盲目的进行变异来触发bug条件，有一些 smart fuzzer 来改进变异策略实现更好的代码覆盖，但是仍然低效，需要多次的变异操作。
+
+- **本文提出的创新方案概述**：
+
+  本文对输入中数据的类型进行推断，提出一种新的变异策略，不仅能提高代码覆盖率，同时保证大概率触发漏洞。例如，推断出是INT类型，就可以将其变异为边界值，挖掘整型溢出漏洞。
+
+- **实验效果**：
+
+  对实际应用程序的评估表明，基于类型推断的 fuzzer 比现有解决方案能更早触发bug，同时保持较高的代码覆盖率。例如，与现有的fuzzer 相比，在实际的应用程序和库（例如poppler，mpg123等）上，TIFF几乎在一半的时间内发现了bug，并且输入的数量少了一个数量级。 
+
+### 框架
+
+<img src="https://cdn.jsdelivr.net/gh/zytMatrix/images/posts/20200827152529.png" style="zoom:50%;" />
+
+1. TIFF监控基本块和他们的执行频率，最终基于这些执行过的基本块计算输入的适应度值。任何执行了新基本块的输入会进行进一步的变异
+2. 为了最大化代码覆盖率，TIFF提取input中两类数据类型：控制偏移类型和数据偏移类型
+3. 此步是将输入变异为高代码覆盖率和进行错误检测的主要步骤
+   * 首先考虑控制偏移类型，如果有与之相关的不变量（例如，cmp指令中的比较对象），它会使用相关信息来变异，或根据与此偏移量相关联的类型标签，对相应的偏移进行突变
+   * 考虑输入中的非控制偏移的数据类型。TIFF的变异策略因输入字节的类型而异。具体而言，对于INT x类型的数据，TIFF根据x的大小变异为不寻常的值（例如，给定整数类型的极值），这种类型的突变主要针对整数溢出错误和堆溢出错误。对于数组类型的偏移量，TIFF插入任意长度的数据，这种类型的突变主要针对缓冲区溢出
+
+> 1. paper: https://www.react-h2020.eu/m/filer_public/b9/64/b9646257-d406-42af-acc8-9260bab720c7/tiff_acsac18.pdf
+> 2. code: https://github.com/vusec/TIFF
