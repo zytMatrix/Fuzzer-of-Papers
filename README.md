@@ -13,9 +13,13 @@ the link of paper and source code, and an abstract of paper
 
 5. [FuzzingParmeSan: Sanitizer-guided Greybox Fuzzing](#fuzzingparmesan-sanitizer-guided-greybox-fuzzing)
 
-6. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](#undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
-
 7. [TIFF: Using Input Type Inference To Improve Fuzzing](#TIFF-Using-Input-Type-Inference-To-Improve-Fuzzing)
+
+7. [Binary-level Directed Fuzzing for Use-After-Free Vulnerabilities](#Binary-level-Directed-Fuzzing-for-Use-After-Free-Vulnerabilities)
+
+8. [Undangle-Early Detection of Dangling Pointers in Use-After-Free and Double-Free Vulnerabilities](#undangle-early-detection-of-dangling-pointers-in-use-after-free-and-double-free-vulnerabilities)
+
+   
 
    
 
@@ -232,3 +236,70 @@ the link of paper and source code, and an abstract of paper
 
 > 1. paper: https://www.react-h2020.eu/m/filer_public/b9/64/b9646257-d406-42af-acc8-9260bab720c7/tiff_acsac18.pdf
 > 2. code: https://github.com/vusec/TIFF
+
+## Binary-level Directed Fuzzing for Use-After-Free Vulnerabilities
+
+作者：Nguyen, Manh-Dung and Bardin, S{\'e}bastien and Bonichon, Richard and Groz, Roland and Lemerre, Matthieu
+
+会议：International Symposium on Recent Advances in Intrusion Detection（RAID-2020）
+
+### 摘要
+
+- **解决的问题**：
+
+  第一个针对二进制实现了导向fuzzer来”挖掘“UAF漏洞
+
+  本文旨在设计一个有效的导向性 fuzz 来挖掘二进制而非源码中的 UAF 漏洞，面临的挑战有：
+
+  1. **Complexity：**触发UAF漏洞需要对同一内存位置执行3个事件：分配、释放、使用，涉及到程序中的多个函数。而缓冲区溢出仅需要一次单独的内存越界访问。UAF的触发需要考虑时间、空间问题，相对来说更加复杂
+  2. **Silence：**UAF漏洞经常没有明显的症状，如：仅仅体现出段错误。此时，fuzz 能判断出是crash，但不能知道是哪种内存错误。而现有的工具 ASan、VarGrind 由于较高的开销不适合集成至 fuzz 中
+
+- **已有解决方案**：
+
+  目前的 fuzzing 工具，很难挖掘出复杂的漏洞，如：UAF。这些漏洞需要满足非常特别的属性才能触发漏洞。我们需要将视线从仅包含缓冲区溢出漏洞的数据集 LAVA-M 转移至新的漏洞类型，如：UAF。
+
+  现有的导向性 fuzz工具 AFLGo、HawkExe 并不能解决上述问题：
+
+  1. 他们过于通用因此不能解决一些UAF漏洞相关的特定问题，如：时间问题，也即他们的引导标准并不考虑执行”序列“
+  2. 他们完全不考虑UAF类型的漏洞，若将其产生的大量测试用例送至检测工具进行检测可能需要大量的时间
+  3. 他们基于源码来插桩，开销很大，并且不能处理二进制的情况
+
+- **本文提出的创新方案概述**：
+
+  <img src="https://cdn.jsdelivr.net/gh/zytMatrix/images/posts/20200830160556.png" style="zoom:50%;" />
+
+  * **输入**：二进制、Targets（**UAFuzz主要关注于bug重放，它的目标信息是bug trace，也即提前就知道UAF漏洞的trace信息**）
+
+  * **计算CG、CFG**：
+
+  * **Input Metrics：**
+
+    * Target Similarity：$t_{P-3TP-B}(s,T)=<t_P(s,T),t_{3TP}(s,T),t_B(s,T))>$，组合首先选择在前缀中覆盖最多代码位置的种子，然后按序覆盖UAF事件最多的种子，最后选择到达 targets 中最多位置的种子。
+
+    * UAF-based Distance：$$\Theta_{UAF}(f_a, f_b)\triangleq 
+      \begin{cases}
+      \beta=0.25~~~~ if ~f_a \rightarrow f_b 覆盖了序列中超过两个的UAF事件 \\
+      1 ~~~~其他
+      \end{cases}$$
+
+      将本文的 edge 权重和 HAWKEYE 中的权重结合起来：$W_{UAFuzz}(f_a, f_b) \triangleq W_{Hawkeye}(f_a, f_b)*\Theta_{UAF}(f_a, f_b)$
+
+    * Cut-edge Coverage： source 基本块和 sink 基本块之间的 cut edge 定义为一个 decision 节点的出边，因此存在一条从 source 基本块开始，经过此 edge 并到达 sink 基本块的路径。非 cut edge 是指它不是 cut edge，即没有从 source 到 sink 的路径通过该edge。若input执行的cut-edge越多，non-cut edge越少，则它更可能覆盖很多的目标代码位置。
+
+  * **Seed Selection：**基于上述标准的Target Simility来选择 seed
+  * **Power Schedule：**基于上述三个标准来分配能量，根据 seed 能有序的覆盖目标位置的数目$T_p(s,T)$按比例分配能量，同时seed distance d 和 cut-edge coverage es作为修正。$p(s,T) \triangleq (1+t_P(s, T))\times \tilde{e_s}(s,T)\times(1-\tilde{d_s(s,T)})$
+  * **Bug Triage：**目标相似性度量允许 UAFUZZ 在运行时计算每个输入覆盖目标的序列。每当创建和执行每个种子后，即可免费获得此信息。我们利用它来预先判定可能触发bug的种子，即确实按顺序覆盖UAF的三个事件。然后，错误分类工具仅在这些预先确定的种子上运行，而其他种子则被丢弃，这能节省大量的错误分类时间
+
+### 流程
+
+<img src="https://cdn.jsdelivr.net/gh/zytMatrix/images/posts/20200830162455.png" style="zoom:50%;" />
+
+如上所示：
+
+1. 以初始seed、被测程序、从 bug trace 中抽取的 target location 信息为输入
+2. 提出了三种专门用于 UAF 漏洞检测的种子衡量指标，种子选择策略倾向于选择在运行时可以覆盖更多target location的种子，能量调度算法根据其在 fuzz 过程中 seed 的分数来分配能量。
+3. 最后，我们利用先前衡量种子的指标来预识别那些可能包含 UAF 漏洞的 seed，然后再将其传给分析工具（VALGRIND）以进行确认，避免无用的检查
+
+> 1. paper: https://wcventure.github.io/FuzzingPaper/Paper/Arxiv20_BinaryUAF.pdf
+> 2. code: https://github.com/strongcourage/uafuzz
+> 3. slides：https://www.blackhat.com/us-20/briefings/schedule/#about-directed-fuzzing-and-use-after-free-how-to-find-complex--silent-bugs-20835
